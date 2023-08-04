@@ -16,6 +16,14 @@ class ViewController: UIViewController {
         constraint.isActive = true
         return constraint
     }()
+    
+    private lazy var cityNameLabel: UILabel = {
+         let label = UILabel()
+         label.textAlignment = .center
+         label.textColor = UIColor(red: 0/255, green: 122/255, blue: 255/255, alpha: 1.0)
+         label.translatesAutoresizingMaskIntoConstraints = false
+         return label
+     }()
 
     private let searchTextField: UITextField = {
         let textField = UITextField()
@@ -140,6 +148,11 @@ class ViewController: UIViewController {
             updateTemperatureLabel()
         }
     }
+    
+    private func showCityLabel(_ cityName: String) {
+       
+          cityNameLabel.text = cityName
+      }
 
     private func updateTemperatureLabel() {
            guard let weatherData = searchedCitiesWeatherData.last else { return }
@@ -185,6 +198,8 @@ class ViewController: UIViewController {
         currentWeatherIconImageView.image = weatherIconImage
         weatherConditionLabel.text = weatherData.weatherCondition
         weatherConditionLabel.textColor = .systemBlue
+        cityNameLabel.text = weatherData.locationName
+
     }
 
     
@@ -199,7 +214,7 @@ class ViewController: UIViewController {
     private func setupUI() {
         title = "Weather App"
         view.backgroundColor = .white
-
+        view.addSubview(cityNameLabel)
         view.addSubview(locationButton)
         view.addSubview(searchTextField)
         view.addSubview(searchButton)
@@ -210,7 +225,7 @@ class ViewController: UIViewController {
         view.addSubview(celsiusButton)
         view.addSubview(fahrenheitButton)
         view.addSubview(weatherConditionLabel)
-
+        cityNameLabel.textColor = .systemBlue
         temperatureLabel.textColor = UIColor(red: 0/255, green: 0/255, blue: 0/255, alpha: 1.0)
         temperatureLabel.font = UIFont.systemFont(ofSize: 40)
 
@@ -227,6 +242,11 @@ class ViewController: UIViewController {
         stackView.isHidden = true
 
         NSLayoutConstraint.activate([
+            
+            cityNameLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            cityNameLabel.topAnchor.constraint(equalTo: locationButton.bottomAnchor, constant: 20),
+                
+            
             locationButton.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 16),
             locationButton.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 16),
 
@@ -284,23 +304,17 @@ class ViewController: UIViewController {
         }
     }
     
-    private func showCityLabel(_ cityName: String) {
-        let cityLabel = UILabel()
-        cityLabel.text = cityName
-        cityLabel.textColor = UIColor(red: 0/255, green: 122/255, blue: 255/255, alpha: 1.0)
-        cityLabel.translatesAutoresizingMaskIntoConstraints = false
-        view.addSubview(cityLabel)
-        
-        NSLayoutConstraint.activate([
-            cityLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-            cityLabel.topAnchor.constraint(equalTo: locationButton.bottomAnchor, constant: 20)
-        ])
-    }
+
     
     @objc private func locationButtonTapped() {
         locationManager.requestWhenInUseAuthorization()
     }
     
+    private func navigateToCitiesViewController() {
+        let citiesViewController = CitiesViewController(weatherDataArray: searchedCitiesWeatherData)
+        navigationController?.pushViewController(citiesViewController, animated: true)
+    }
+
     private func updateWeatherIconHeightConstraint() {
          let heightMultiplier: CGFloat = 0.1
          let constant = view.frame.width * heightMultiplier
