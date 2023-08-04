@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+    <!-- Add App Transport Security Exception Domains -->
+    <key>NSAppTransportSecurity</key>
+    <dict>
+        <key>NSExceptionDomains</key>
+        <dict>
+            <!-- Add an exception for api.weatherapi.com -->
+            <key>api.weatherapi.com</key>
+            <dict>
+                <key>NSExceptionAllowsInsecureHTTPLoads</key>
+                <true/>
+                <key>NSIncludesSubdomains</key>
+                <true/>
+                <key>NSTemporaryExceptionAllowsInsecureHTTPLoads</key>
+                <true/>
+            </dict>
+            <!-- Add other exception domains if required -->
+        </dict>
+    </dict>
+
+    <!-- Add Location Usage Description Keys -->
+    <key>NSLocationWhenInUseUsageDescription</key>
+    <string>We need your location to provide accurate weather information.</string>
+    <key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
+    <string>We need your location to provide accurate weather information even when the app is in the background.</string>
+
+    <!-- Add API Key -->
+    <key>WeatherAPIKey</key>
+    <string>806cd8e87ecd4becbeb222532232707</string>
+
+    <!-- Remaining Keys from the Original Info.plist -->
+    <key>CFBundleExecutable</key>
+    <string></string>
+    <key>UIApplicationSceneManifest</key>
+    <dict>
+        <key>UIApplicationSupportsMultipleScenes</key>
+        <false/>
+        <key>UISceneConfigurations</key>
+        <dict>
+            <key>UIWindowSceneSessionRoleApplication</key>
+            <array>
+                <dict>
+                    <key>UISceneConfigurationName</key>
+                    <string>Default Configuration</string>
+                    <key>UISceneDelegateClassName</key>
+                    <string>$(PRODUCT_MODULE_NAME).SceneDelegate</string>
+                    <key>UISceneStoryboardFile</key>
+                    <string>Main</string>
+                </dict>
+            </array>
+        </dict>
+    </dict>
+    <key>OpenSourceProject</key>
+    <string></string>
+</dict>
+</plist>
