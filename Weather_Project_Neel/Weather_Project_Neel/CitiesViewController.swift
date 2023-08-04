@@ -4,9 +4,17 @@ class CitiesViewController: UIViewController {
     // MARK: - UI Components
     private let tableView: UITableView = {
         let tableView = UITableView()
-   
         tableView.translatesAutoresizingMaskIntoConstraints = false
         return tableView
+    }()
+    
+    private let backButton: UIButton = {
+        let button = UIButton(type: .system)
+        button.setTitle("Back", for: .normal)
+        button.titleLabel?.font = UIFont.boldSystemFont(ofSize: 18)
+        button.addTarget(self, action: #selector(backButtonTapped), for: .touchUpInside)
+        button.translatesAutoresizingMaskIntoConstraints = false
+        return button
     }()
     
     // MARK: - Properties
@@ -41,12 +49,27 @@ class CitiesViewController: UIViewController {
         view.backgroundColor = UIColor(red: 171/255, green: 242/255, blue: 1, alpha: 1) // #abf2ff
         
         view.addSubview(tableView)
+        view.addSubview(backButton)
+        
         NSLayoutConstraint.activate([
             tableView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
             tableView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
             tableView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-            tableView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
+            tableView.bottomAnchor.constraint(equalTo: backButton.topAnchor, constant: -16),
+            
+            backButton.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 16),
+            backButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -16),
+            backButton.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -16),
+            backButton.heightAnchor.constraint(equalToConstant: 50)
         ])
+    }
+    
+    @objc private func backButtonTapped() {
+        navigateBackToViewController()
+    }
+    
+    private func navigateBackToViewController() {
+        dismiss(animated: true, completion: nil)
     }
     
     private func setupTableView() {
@@ -102,8 +125,6 @@ extension CitiesViewController: UITableViewDataSource {
             weatherLabel.centerXAnchor.constraint(equalTo: cell.centerXAnchor),
             weatherLabel.centerYAnchor.constraint(equalTo: cell.centerYAnchor),
         ])
-
-
 
         return cell
     }
